@@ -20,7 +20,7 @@ function initialize() {
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
   
     kmlLayer = new google.maps.KmlLayer({
-        url: 'https://c9.io/hurricandeditka16/gmaps/workspace/tempFill.kml',
+        url: 'tempFill.kml',
         preserveViewport: true,
         map: map
       });
