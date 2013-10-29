@@ -188,7 +188,7 @@ function heatmap(check) {
 
 function apiheatmap(check) {
     if (check.checked) {
-        $.get("https://c9.io/hurricandeditka16/gmaps/workspace/aprilHeat.js", function() {
+        $.get("https://drive.google.com/file/d/0B2e_pVm37PcgSE1HdF84S0cyZ0E/edit?usp=sharing", function() {
             heatmap = new google.maps.visualization.HeatmapLayer({ 
                     data: heatMapData,
             });
