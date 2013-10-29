@@ -20,7 +20,7 @@ function initialize() {
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
   
     kmlLayer = new google.maps.KmlLayer({
-        url: 'tempFill.kml',
+        url: 'https://googledrive.com/host/0B2e_pVm37PcgMXZpWXJIaFFia1k',
         preserveViewport: true,
         map: map
       });
@@ -125,9 +125,9 @@ function toggleLabels() {
 
 function fillOutline(selection) {
     if (selection == "Fill") {
-        kmlLayer.setUrl('https://c9.io/hurricandeditka16/gmaps/workspace/tempFill.kml');
+        kmlLayer.setUrl('tempFill.kml');
     } else if (selection == "Outline") {
-        kmlLayer.setUrl('https://c9.io/hurricandeditka16/gmaps/workspace/tempOutline.kml');
+        kmlLayer.setUrl('tempOutline.kml');
     } else {
         kmlLayer.setUrl(null);
     }
