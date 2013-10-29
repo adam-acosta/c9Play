@@ -125,9 +125,9 @@ function toggleLabels() {
 
 function fillOutline(selection) {
     if (selection == "Fill") {
-        kmlLayer.setUrl('tempFill.kml');
+        kmlLayer.setUrl('https://googledrive.com/host/0B2e_pVm37PcgMXZpWXJIaFFia1k');
     } else if (selection == "Outline") {
-        kmlLayer.setUrl('tempOutline.kml');
+        kmlLayer.setUrl('https://googledrive.com/host/0B2e_pVm37PcgVEhSSmlwUDNrYkE');
     } else {
         kmlLayer.setUrl(null);
     }
