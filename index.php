@@ -1,1 +1,3 @@
-<?php echo file_get_contents('Gkml.html'); ?>
+<?php 
+echo file_get_contents('Gkml.html'); 
+?>

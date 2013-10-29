@@ -110,6 +110,7 @@
 
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=visualization"></script>
+    <script type="text/javascript" src='https://www.google.com/jsapi?autoload={"modules":[{"name":"visualization","version":"1"}]}'></script>
     <script src="markerwithlabel.js"></script>
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
@@ -122,12 +123,12 @@
   </head>
   <body>
     <div id="map-canvas"></div>
-    <div id="appControls" class="container" data-centeronwindow=true data-icon="containerPlus/css/icons/browser.png"
-    data-drag=true data-resize=true data-dock="dock" data-collapsable=true data-containment="document" data-buttons="dock,fullscreen" data-rememberme="true">
+    <div id="appControls" class="container" data-centeronwindow=false data-icon="containerPlus/css/icons/browser.png"
+    data-drag=true data-resize=true data-dock="dock" data-collapsable=true data-containment="document" data-buttons="dock,fullscreen" data-rememberme=true>
       <h2>Controls</h2>
       <table>
         <tr><td><label><input onclick="toggleLabels()" type="checkbox" id="labelsButton" value="labels" checked />Labels</label></td></tr>
-        <tr><td><select onchange="fillOutline(this.value)" id="fillOutlineSelect" value="layers" disabled="true" /><option value="Fill">Fill</option><option value="Outline">Outline</option><option value="None">None</option></select></td></tr>
+        <tr><td>Zone Layer:<select onchange="fillOutline(this.value)" id="fillOutlineSelect" value="layers" disabled="true" /><option value="Fill">Fill</option><option value="Outline">Outline</option><option value="None">None</option></select></td></tr>
         <tr><td><label><input onchange="heatmap(this)" type="checkbox" id="fusioncb" />Fusion Heatmap</label></td></tr>
         <tr><td><label><input onchange="apiheatmap(this)" type="checkbox" id="heatmapcb" />Maps API Heatmap</label></td></tr>
         <tr><td><label><input onchange="zoneHeatmap(this)" type="checkbox" id="fusionHeatcb" />Zone Heatmap</label></td></tr>
@@ -136,8 +137,8 @@
         <tr><td><input onchange="layerOpacity(this.value / 100)" type="range" id="slide" min="1" max="100" value="50"/></td></tr>
       </table>
     </div>
-    <div id="chart1" class="container" data-centeronwindow=true data-icon="containerPlus/css/icons/chart.png" data-drag=true data-resize=true
-    data-dock="dock" data-collapsable=true data-containment="document" data-buttons="dock,fullscreen" data-rememberme=false>
+    <div id="chart1" class="container" data-centeronwindow=false data-icon="containerPlus/css/icons/chart.png" data-drag=true data-resize=true
+    data-dock="dock" data-collapsable=true data-containment="document" data-buttons="dock,fullscreen" data-rememberme=true >
         <h2>Chart</h2>
         <div id="visualization"></div>
     </div>

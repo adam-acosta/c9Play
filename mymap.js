@@ -1,9 +1,7 @@
-var map, kmlLayer, labels, fusionheat, windowwidth, opt, zoneSelect, layer, heatmap
+var map, kmlLayer, labels, fusionheat, windowwidth, opt, zoneSelect, layer, heatmap,
     zone = 'All',
     labelsArray = [],
     matches = [];
-
-google.load('visualization', '1', { packages: ['corechart'] });
 
 function initialize() {
     var myLatLng = new google.maps.LatLng(26.133070810163336, -80.25464710424808);
@@ -22,6 +20,7 @@ function initialize() {
     kmlLayer = new google.maps.KmlLayer({
         url: 'https://googledrive.com/host/0B2e_pVm37PcgMXZpWXJIaFFia1k',
         preserveViewport: true,
+        suppressInfoWindows: true,
         map: map
       });
     
@@ -77,25 +76,27 @@ function initialize() {
 }
 
 function drawVisualization(zone) {
+    console.log("drawVisualization fired");
     var where = "";
     if (zone !== "All") {
         where = "WHERE Zone = '" + zone + "'";
-        google.visualization.drawChart({
-            containerId: "visualization",
-            dataSourceUrl: "http://www.google.com/fusiontables/gvizdata?tq=",
-            query: "SELECT Month, Trips, Avg as 'Total Avg' " + "FROM 1FApavNb2YPK1TtEtkrD3zyNvX--ZEB6YtGX2kN8 " + where,
-            chartType: "ComboChart",
-            options: {
-                title: zone,
-                height: 400,
-                width: 600,
-                seriesType: "bars",
-                hAxis: {slantedText: true},
-                series: {1: {type: "line"}} 
+        var wrapper = new google.visualization.ChartWrapper({
+            'containerId': 'visualization',
+            'dataSourceUrl': 'http://www.google.com/fusiontables/gvizdata?tq=',
+            'query': "SELECT Month, Trips, Avg as 'Total Avg' " + "FROM 1FApavNb2YPK1TtEtkrD3zyNvX--ZEB6YtGX2kN8 " + where,
+            'chartType': 'ComboChart',
+            'options': {
+                'title': zone,
+                'height': 400,
+                'width': 600,
+                'seriesType': 'bars',
+                'hAxis': {'slantedText': true},
+                'series': {1: {'type': 'line'}} 
             }
         });
+        wrapper.draw()
     } else {
-        google.visualization.drawChart({
+        var wrapper = new google.visualization.ChartWrapper({
             containerId: "visualization",
             dataSourceUrl: "http://www.google.com/fusiontables/gvizdata?tq=",
             query: "SELECT Month, SUM(Trips) AS 'Total Trips'" + "FROM 1FApavNb2YPK1TtEtkrD3zyNvX--ZEB6YtGX2kN8 GROUP BY Month",
@@ -107,6 +108,7 @@ function drawVisualization(zone) {
                 hAxis: {slantedText: true}
             }
         });
+        wrapper.draw();
     }
 }
 
@@ -236,6 +238,11 @@ function updateLayerQuery(layer, zone) {
            } 
         }],
         styleId: 2
+    });
+    
+    google.maps.event.addListener(layer, 'click', function(e) {
+        e.infoWindowHtml = e.row['Zone'].value + "<br>"
+            + e.row['Month'].value + ": " + e.row['Trips'].value;
     });
 }
 
