@@ -1,4 +1,4 @@
-var map, kmlLayer, labels, fusionheat, windowwidth, opt, zoneSelect, layer, heatmap,
+var map, kmlLayer, labels, fusionheat, windowwidth, opt, zoneSelect, layer, heatmap, zoneMonth, apiHeatMonths, selectedMonth,
     zone = 'All',
     labelsArray = [],
     matches = [];
@@ -73,10 +73,21 @@ function initialize() {
         updateLayerQuery(layer, zone);
         drawVisualization(zone);
     });
+    
+    google.maps.event.addDomListener(document.getElementById('zoneHeatMonthSelect'), 'change', function() {
+        zoneMonth = this.value;
+        updateLayerQuery(layer, zone, zoneMonth);
+        drawVisualization(zone);
+    });
+    
+    google.maps.event.addDomListener(document.getElementById("heatMonthSelect"), "change", function() {
+        heatmap.setMap(null);
+        heatMapData = [];
+        apiHeatMap();
+    });
 }
 
 function drawVisualization(zone) {
-    console.log("drawVisualization fired");
     var where = "";
     if (zone !== "All") {
         where = "WHERE Zone = '" + zone + "'";
@@ -188,28 +199,55 @@ function heatmap(check) {
     }
 }
 
-function apiheatmap(check) {
-    if (check.checked) {
-        $.get("https://googledrive.com/host/0B2e_pVm37PcgSE1HdF84S0cyZ0E", function() {
+apiHeatMonths = {
+    'April': '0B2e_pVm37PcgSE1HdF84S0cyZ0E',
+    'May': '0B2e_pVm37Pcgb0NkZjZyU2tlc1k',
+    'June': '0B2e_pVm37PcgemdFYzdZaEdmS1U',
+    'July': '0B2e_pVm37PcgSkx3NlZ6OTI0bkk',
+    'August': '0B2e_pVm37PcgMWsxTkh0MXkyZ2s',
+    'September': '0B2e_pVm37PcgbEp0T3psSERFems'
+};
+function apiHeatMap(check) {
+    if ($("#heatmapcb").is(":checked")) {
+        $('#heatMonthSelect').css({
+            'visibility': 'visible',
+            'display': 'inline'
+        });
+        
+        selectedMonth = $("#heatMonthSelect").val();
+        console.log(selectedMonth);
+        $.get("https://googledrive.com/host/" + apiHeatMonths[selectedMonth], function() {
             heatmap = new google.maps.visualization.HeatmapLayer({ 
                     data: heatMapData,
             });
+            console.log(heatMapData.length);
+            
             heatmap.setMap(map);
         });
     } else {
         heatmap.setMap(null);
+        $('#heatMonthSelect').css({
+            'visibility': 'hidden',
+            'display': 'none'
+        });
     }
 }
 
 function zoneHeatmap(check) {
+    zoneMonth = $("#zoneHeatMonthSelect").val();
+    console.log("zoneMonth: " + zoneMonth);
     toggleLegend(map);
     if (check.checked) {
         $('#myform').css({
             'visibility' : 'visible',
             'display' : 'block'
         });
+        $('#zoneHeatMonthSelect').css({
+            'visibility': 'visible',
+            'display': 'inline'
+        });
         layer = new google.maps.FusionTablesLayer();
-        updateLayerQuery(layer, zone);
+        updateLayerQuery(layer, zone, zoneMonth);
         layer.setMap(map);
         return false;
     } 
@@ -217,15 +255,21 @@ function zoneHeatmap(check) {
         'visibility' : 'hidden',
         'display' : 'none'
     });
+    $('#zoneHeatMonthSelect').css({
+        'visibility': 'hidden',
+        'display': 'none'
+    });
     layer.setMap(null);
 }
 
-function updateLayerQuery(layer, zone) {
+function updateLayerQuery(layer, zone, zoneMonth) {
     var where;
     if (zone !== 'All') {
-        where = "Zone = '" + zone + "'";
+        where = "Zone = '" + zone + "' and Month = '" + zoneMonth + "'";
+    } else {
+        where = "Month = '" + zoneMonth + "'";
     }
-
+    console.log("where: " + where);
     layer.setOptions({
         query: {
             select: 'geometry',
@@ -240,9 +284,12 @@ function updateLayerQuery(layer, zone) {
         styleId: 2
     });
     
+    console.log(layer);
+    
     google.maps.event.addListener(layer, 'click', function(e) {
         e.infoWindowHtml = e.row['Zone'].value + "<br>"
             + e.row['Month'].value + ": " + e.row['Trips'].value;
+        drawVisualization(e.row['Zone'].value);
     });
 }
 
@@ -256,10 +303,10 @@ function toggleLegend(map) {
     legend.id = 'legend';
     var content = [];
     content.push('<h4>Trips</h4>');
-    content.push('<p><div class="color red"></div>2 to 200</p>');
-    content.push('<p><div class="color yellow"></div>101 to 200</p>');
-    content.push('<p><div class="color green"></div>201 to 300</p>');
-    content.push('<p><div class="color blue"></div>301 to 2,065</p>');
+    content.push('<p><div class="color red"></div>1 to 399</p>');
+    content.push('<p><div class="color yellow"></div>400 to 799</p>');
+    content.push('<p><div class="color green"></div>800 to 1,119</p>');
+    content.push('<p><div class="color blue"></div>1,200+</p>');
     legend.innerHTML = content.join('');
     legend.index = 1;
     map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);

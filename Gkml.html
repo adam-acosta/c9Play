@@ -59,6 +59,16 @@
             display: none;
         }
         
+        #zoneHeatMonthSelect {
+            visibility: hidden;
+            display: none;
+        }
+        
+        #heatMonthSelect {
+            visibility: hidden;
+            display: none;
+        }
+        
         input[type="range"] {
             -webkit-appearance: none !important;
             background-color: silver;    
@@ -129,9 +139,13 @@
       <table>
         <tr><td><label><input onclick="toggleLabels()" type="checkbox" id="labelsButton" value="labels" checked />Labels</label></td></tr>
         <tr><td>Zone Layer:<select onchange="fillOutline(this.value)" id="fillOutlineSelect" value="layers" disabled="true" /><option value="Fill">Fill</option><option value="Outline">Outline</option><option value="None">None</option></select></td></tr>
-        <tr><td><label><input onchange="heatmap(this)" type="checkbox" id="fusioncb" />Fusion Heatmap</label></td></tr>
-        <tr><td><label><input onchange="apiheatmap(this)" type="checkbox" id="heatmapcb" />Maps API Heatmap</label></td></tr>
-        <tr><td><label><input onchange="zoneHeatmap(this)" type="checkbox" id="fusionHeatcb" />Zone Heatmap</label></td></tr>
+        <!--<tr><td><label><input onchange="heatmap(this)" type="checkbox" id="fusioncb" />Fusion Heatmap</label></td></tr>-->
+        <tr><td><label><input onchange="apiHeatMap(this)" type="checkbox" id="heatmapcb" />Maps API Heatmap</label>
+            <select id="heatMonthSelect" /><option value="April">April</option><option value="May">May</option><option value="June">June</option><option value="July">July</option><option value="August">August</option><option value="September">September</option></select></td>
+        </tr>
+        <tr><td><label><input onchange="zoneHeatmap(this)" type="checkbox" id="fusionHeatcb" />Zone Heatmap</label>
+            <select onchange="zoneHeatMonth(this.value)" id="zoneHeatMonthSelect" /><option value="April">April</option><option value="May">May</option><option value="June">June</option><option value="July">July</option><option value="August">August</option><option value="September">September</option></select></td>
+        </tr>
         <tr><td><form id="myform"><label>Zone:</label><br /><select id="zoneSelect"></select></form></td></tr>
         <tr><td><label>Opacity of Layers</label></td></tr>
         <tr><td><input onchange="layerOpacity(this.value / 100)" type="range" id="slide" min="1" max="100" value="50"/></td></tr>
