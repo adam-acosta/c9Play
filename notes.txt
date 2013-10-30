@@ -1,0 +1,3 @@
+zone heatmap will only isolate and display selected zone from dropdown is the month is april
+
+lot more zones in db than in zone polygon file
