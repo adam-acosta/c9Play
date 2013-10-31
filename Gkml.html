@@ -75,6 +75,7 @@
             height: 15px;
             width: 135px;
         }
+        
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none !important;
             background-color: #080861;    
@@ -144,7 +145,7 @@
             <select id="heatMonthSelect" /><option value="April">April</option><option value="May">May</option><option value="June">June</option><option value="July">July</option><option value="August">August</option><option value="September">September</option></select></td>
         </tr>
         <tr><td><label><input onchange="zoneHeatmap(this)" type="checkbox" id="fusionHeatcb" />Zone Heatmap</label>
-            <select onchange="zoneHeatMonth(this.value)" id="zoneHeatMonthSelect" /><option value="April">April</option><option value="May">May</option><option value="June">June</option><option value="July">July</option><option value="August">August</option><option value="September">September</option></select></td>
+            <select  id="zoneHeatMonthSelect" /><option value="April">April</option><option value="May">May</option><option value="June">June</option><option value="July">July</option><option value="August">August</option><option value="September">September</option></select></td>
         </tr>
         <tr><td><form id="myform"><label>Zone:</label><br /><select id="zoneSelect"></select></form></td></tr>
         <tr><td><label>Opacity of Layers</label></td></tr>

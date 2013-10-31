@@ -1,4 +1,4 @@
-var map, kmlLayer, labels, fusionheat, windowwidth, opt, zoneSelect, layer, heatmap, zoneMonth, apiHeatMonths, selectedMonth,
+var map, kmlLayer, labels, windowwidth, opt, zoneSelect, layer, heatmap, zoneMonth, apiHeatMonths, selectedMonth, wrapper, asdf,
   zone = 'All',
   labelsArray = [],
   matches = [];
@@ -80,10 +80,10 @@ function drawVisualization(zone) {
   var where = "";
   if (zone !== "All") {
     where = "WHERE Zone = '" + zone + "'";
-    var wrapper = new google.visualization.ChartWrapper({
+    wrapper = new google.visualization.ChartWrapper({
       'containerId': 'visualization',
       'dataSourceUrl': 'http://www.google.com/fusiontables/gvizdata?tq=',
-      'query': "SELECT Month, Trips, Avg as 'Total Avg' " + "FROM 1FApavNb2YPK1TtEtkrD3zyNvX--ZEB6YtGX2kN8 " + where,
+      'query': "SELECT MonthNum, Month, Trips, Avg AS 'Total Avg' " + "FROM 17RDkRPbCd_I3YHXGYqzDceHsVQoGQAGmeBnvLms " + where + " ORDER BY MonthNum",
       'chartType': 'ComboChart',
       'options': {
         'title': zone,
@@ -98,15 +98,17 @@ function drawVisualization(zone) {
             'type': 'line'
           }
         }
+      },
+      view : {
+        columns: [1,2,3]
       }
     });
-    wrapper.draw()
   }
   else {
-    var wrapper = new google.visualization.ChartWrapper({
+    wrapper = new google.visualization.ChartWrapper({
       containerId: "visualization",
       dataSourceUrl: "http://www.google.com/fusiontables/gvizdata?tq=",
-      query: "SELECT Month, SUM(Trips) AS 'Total Trips'" + "FROM 1FApavNb2YPK1TtEtkrD3zyNvX--ZEB6YtGX2kN8 GROUP BY Month",
+      query: "SELECT Month, MonthNum, SUM(Trips) AS 'Total Trips'" + "FROM 17RDkRPbCd_I3YHXGYqzDceHsVQoGQAGmeBnvLms GROUP BY Month, MonthNum ORDER BY MonthNum",
       chartType: "ColumnChart",
       options: {
         title: zone,
@@ -115,10 +117,18 @@ function drawVisualization(zone) {
         hAxis: {
           slantedText: true
         }
+      },
+      view: {
+        columns: [0,2]
       }
     });
-    wrapper.draw();
   }
+  wrapper.draw();
+  // google.visualization.events.addListener(wrapper, 'select', function() {
+  //   console.log("click event on chart");
+  //   asdf = wrapper.getChart().getSelection()[0].row; // or wrapper.Bh.J[0].c[1].v // to get actual values from chart
+  //   console.log(asdf);
+  // });
 }
 
 function toggleLabels() {
@@ -181,23 +191,23 @@ function styleMap(map) {
   map.setMapTypeId("map-style");
 }
 
-function heatmap(check) {
-  if (check.checked) {
-    fusionheat = new google.maps.FusionTablesLayer({
-      query: {
-        select: 'Longitude, Latitude',
-        from: '1jrdXYdZguTfpCD3inJfzvbfnFM-xpOZwY6V3toQ'
-      },
-      heatmap: {
-        enabled: false
-      }
-    });
-    fusionheat.setMap(map);
-  }
-  else {
-    fusionheat.setMap(null);
-  }
-}
+// function heatmap(check) {
+//   if (check.checked) {
+//     fusionheat = new google.maps.FusionTablesLayer({
+//       query: {
+//         select: 'Longitude, Latitude',
+//         from: '1jrdXYdZguTfpCD3inJfzvbfnFM-xpOZwY6V3toQ'
+//       },
+//       heatmap: {
+//         enabled: false
+//       }
+//     });
+//     fusionheat.setMap(map);
+//   }
+//   else {
+//     fusionheat.setMap(null);
+//   }
+// }
 apiHeatMonths = {
   'April': '0B2e_pVm37PcgSE1HdF84S0cyZ0E',
   'May': '0B2e_pVm37Pcgb0NkZjZyU2tlc1k',
