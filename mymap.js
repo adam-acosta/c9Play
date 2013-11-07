@@ -1,4 +1,4 @@
-var map, kmlLayer, labels, windowwidth, opt, zoneSelect, layer, heatmap, zoneMonth, apiHeatMonths, selectedMonth, wrapper, asdf,
+var map, kmlLayer, labels, windowwidth, opt, zoneSelect, layer, heatmap, zoneMonth, apiHeatMonths, selectedMonth, wrapper, asdf, circularHeatMonths, circularChart,
   zone = 'All',
   labelsArray = [],
   matches = [];
@@ -59,6 +59,25 @@ function initialize() {
   styleMap(map);
   $(".container").containerize();
   drawVisualization(zone);
+  
+  $.get("https://googledrive.com/host/" + circularHeatMonths['April'], function() {
+    // circular heat chart
+  	circularChart = circularHeatChart()
+      .segmentHeight(30)
+      .innerRadius(20)
+      .numSegments(24)
+      .range(["white","red"])
+      .radialLabels(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"])
+      .segmentLabels(["Midnight", "1am", "2am", "3am", "4am", "5am", "6am", "7am", "8am", "9am", "10am", "11am", "Midday", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm"]);
+      
+    d3.select('#circularChart')
+  		.selectAll('svg')
+  		.data([circularHeatData])
+  		.enter()
+  		.append('svg')
+  		.call(circularChart);
+  });
+  
   google.maps.event.addDomListener(document.getElementById('zoneSelect'), 'change', function() {
     zone = this.value;
     updateLayerQuery(layer, zone, zoneMonth);
@@ -214,7 +233,18 @@ apiHeatMonths = {
   'June': '0B2e_pVm37PcgemdFYzdZaEdmS1U',
   'July': '0B2e_pVm37PcgSkx3NlZ6OTI0bkk',
   'August': '0B2e_pVm37PcgMWsxTkh0MXkyZ2s',
-  'September': '0B2e_pVm37PcgbEp0T3psSERFems'
+  'September': '0B2e_pVm37PcgbEp0T3psSERFems',
+  'October': '0B2e_pVm37PcgM2RqWmhQQUtiMGs'
+};
+
+circularHeatMonths = {
+  'April': '0B2e_pVm37PcgWWFfSnlNNVRqLTg',
+  'May': '0B2e_pVm37PcgM2pSa1ZnN1hWOWc',
+  'June': '0B2e_pVm37PcgSGNKT29rTjdGdTg',
+  'July': '0B2e_pVm37Pcga1RQRFpzRTRsb2M',
+  'August': '0B2e_pVm37PcgMUwwbGtiTXF5OFE',
+  'September': '0B2e_pVm37PcgYzBnUmlSb0hkZzg',
+  'October': '0B2e_pVm37PcgeGU3MUxxZ29zcGM'
 };
 
 function apiHeatMap(check) {
@@ -224,16 +254,26 @@ function apiHeatMap(check) {
       'display': 'inline'
     });
     selectedMonth = $("#heatMonthSelect").val();
-    console.log(selectedMonth);
     $.get("https://googledrive.com/host/" + apiHeatMonths[selectedMonth], function() {
       heatmap = new google.maps.visualization.HeatmapLayer({
         data: heatMapData,
       });
-      console.log(heatMapData.length);
       heatmap.setMap(map);
     });
-  }
-  else {
+    $.get("https://googledrive.com/host/" + circularHeatMonths[selectedMonth], function() {
+      // circular heat chart
+      d3.select('#circularChart')
+    		.selectAll('svg')
+    		.remove();
+    		
+  	  d3.select('#circularChart')
+    		.selectAll('svg')
+    		.data([circularHeatData])
+    		.enter()
+    		.append('svg')
+    		.call(circularChart);
+    });
+  } else {
     heatmap.setMap(null);
     $('#heatMonthSelect').css({
       'visibility': 'hidden',

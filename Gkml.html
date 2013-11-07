@@ -6,6 +6,7 @@
     <title>YC Zone Map App</title>
 
     <link href='containerPlus/css/mb.containerPlus.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="circularheat/css/svg.css">
     <style type="text/css">
         html, body, #map-canvas {
             height: 100%;
@@ -24,7 +25,7 @@
             background-color: white;
             text-align: center;
             white-space: nowrap;
-            font-size: 8px !important;
+            /*font-size: 8px !important;*/
         }
 
         .mbc_container > .mbc_header h2 {
@@ -104,7 +105,7 @@
         }
         
         #appControls {
-             width: 280px;
+             width: 400px;
              height: 274px;
              opacity: 0.8;
         }
@@ -116,8 +117,16 @@
              width: 625px;
              height: 493px;
         }
+        
+       #chart2 {
+             top: 364px;
+             left: 308px;
+             /*opacity: 0.8;*/
+             width: 600px;
+             height: 600px;
+        }
     </style>
-
+    
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=visualization"></script>
     <script type="text/javascript" src='https://www.google.com/jsapi?autoload={"modules":[{"name":"visualization","version":"1"}]}'></script>
@@ -127,7 +136,10 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.js"></script>
     <script type="text/javascript" src="containerPlus/inc/jquery.mb.containerPlus.js"></script>
     <script type="text/javascript" src="containerPlus/inc/mb.containerPlus.plugins.js"></script>
-
+        
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="circularheat/js/circularHeatChart.js"></script>
+    
     <script type="text/javascript" src="zones.js"></script>
     <script type="text/javascript" src="mymap.js"></script>
   </head>
@@ -140,11 +152,11 @@
         <tr><td><label><input onclick="toggleLabels()" type="checkbox" id="labelsButton" value="labels" checked />Labels</label></td></tr>
         <tr><td>Zone Layer:<select onchange="fillOutline(this.value)" id="fillOutlineSelect" value="layers" disabled="true" /><option value="Fill">Fill</option><option value="Outline">Outline</option><option value="None">None</option></select></td></tr>
         <!--<tr><td><label><input onchange="heatmap(this)" type="checkbox" id="fusioncb" />Fusion Heatmap</label></td></tr>-->
-        <tr><td><label><input onchange="apiHeatMap(this)" type="checkbox" id="heatmapcb" />Maps API Heatmap</label>
-            <select id="heatMonthSelect" /><option value="April">April</option><option value="May">May</option><option value="June">June</option><option value="July">July</option><option value="August">August</option><option value="September">September</option></select></td>
+        <tr><td><label><input onchange="apiHeatMap(this)" type="checkbox" id="heatmapcb" />Lat/Lon Heatmap</label>
+            <select id="heatMonthSelect" /><option value="April">April</option><option value="May">May</option><option value="June">June</option><option value="July">July</option><option value="August">August</option><option value="September">September</option><option value="October">October</option></select></td>
         </tr>
         <tr><td><label><input onchange="zoneHeatmap(this)" type="checkbox" id="fusionHeatcb" />Zone Heatmap</label>
-            <select id="zoneHeatMonthSelect" /><option value="April">April</option><option value="May">May</option><option value="June">June</option><option value="July">July</option><option value="August">August</option><option value="September">September</option></select></td>
+            <select id="zoneHeatMonthSelect" /><option value="April">April</option><option value="May">May</option><option value="June">June</option><option value="July">July</option><option value="August">August</option><option value="September">September</option><option value="October">October</option></select></td>
         </tr>
         <tr><td><form id="myform"><label>Zone:</label><br /><select id="zoneSelect"></select></form></td></tr>
         <tr><td><label>Opacity of Layers</label></td></tr>
@@ -153,8 +165,13 @@
     </div>
     <div id="chart1" class="container" data-centeronwindow=false data-icon="containerPlus/css/icons/chart.png" data-drag=true data-resize=true
     data-dock="dock" data-collapsable=true data-containment="document" data-buttons="dock,fullscreen" data-rememberme=true >
-        <h2>Chart</h2>
+        <h2>Zone Heatmap Chart</h2>
         <div id="visualization"></div>
+    </div>
+    <div id="chart2" class="container" data-centeronwindow=false data-icon="containerPlus/css/icons/chart.png" data-drag=true data-resize=true
+    data-dock="dock" data-collapsable=true data-containment="document" data-buttons="dock,fullscreen" data-rememberme=true >
+        <h2>Circular heat chart</h2>
+        <div class="chart" id="circularChart"></div>
     </div>
   </body>
 </html>
