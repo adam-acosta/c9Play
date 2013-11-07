@@ -39,21 +39,6 @@
             overflow: hidden !important;
         }
 
-        #appControls {
-             top: 25;
-             left: 88px;
-             width: 280px;
-             opacity: 0.8;
-        }
-
-        #chart1 {
-             top: 126px;
-             left: 1095px;
-             opacity: 0.8;
-             width: 625px;
-             height: 493px;
-        }
-
         #myform {
             visibility: hidden;
             display: none;
@@ -117,6 +102,20 @@
         .blue {
             background: #0000ff;
         }
+        
+        #appControls {
+             width: 280px;
+             height: 274px;
+             opacity: 0.8;
+        }
+
+        #chart1 {
+             top: 364px;
+             left: 108px;
+             opacity: 0.8;
+             width: 625px;
+             height: 493px;
+        }
     </style>
 
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -134,7 +133,7 @@
   </head>
   <body>
     <div id="map-canvas"></div>
-    <div id="appControls" class="container" data-centeronwindow=false data-icon="containerPlus/css/icons/browser.png"
+    <div id="appControls" class="container" data-centeronwindow=false data-icon="containerPlus/css/icons/browser.png" style="top:45px; left:108px;"
     data-drag=true data-resize=true data-dock="dock" data-collapsable=true data-containment="document" data-buttons="dock,fullscreen" data-rememberme=true>
       <h2>Controls</h2>
       <table>
@@ -145,7 +144,7 @@
             <select id="heatMonthSelect" /><option value="April">April</option><option value="May">May</option><option value="June">June</option><option value="July">July</option><option value="August">August</option><option value="September">September</option></select></td>
         </tr>
         <tr><td><label><input onchange="zoneHeatmap(this)" type="checkbox" id="fusionHeatcb" />Zone Heatmap</label>
-            <select  id="zoneHeatMonthSelect" /><option value="April">April</option><option value="May">May</option><option value="June">June</option><option value="July">July</option><option value="August">August</option><option value="September">September</option></select></td>
+            <select id="zoneHeatMonthSelect" /><option value="April">April</option><option value="May">May</option><option value="June">June</option><option value="July">July</option><option value="August">August</option><option value="September">September</option></select></td>
         </tr>
         <tr><td><form id="myform"><label>Zone:</label><br /><select id="zoneSelect"></select></form></td></tr>
         <tr><td><label>Opacity of Layers</label></td></tr>
