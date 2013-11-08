@@ -1,0 +1,21 @@
+/* SVG styling */
+#circularChart {
+  height: 550px;
+  width: 550px;  
+}
+#circularChart svg {
+  height: 550px;
+  width: 550px;
+}
+path {
+  stroke: #777;
+  stroke-width: 0.1px;
+}
+#circularChart .labels {
+  fill: #292829;
+  font-weight: 200;
+  letter-spacing: -1px;
+}
+.segment {
+  font-size: 14px;
+}
