@@ -102,7 +102,7 @@ function drawVisualization(zone) {
     wrapper = new google.visualization.ChartWrapper({
       'containerId': 'visualization',
       'dataSourceUrl': 'http://www.google.com/fusiontables/gvizdata?tq=',
-      'query': "SELECT MonthNum, Month, Trips, Avg AS 'Total Avg' " + "FROM 17RDkRPbCd_I3YHXGYqzDceHsVQoGQAGmeBnvLms " + where + " ORDER BY MonthNum",
+      'query': "SELECT MonthNum, Month, Trips, Avg " + "FROM 17RDkRPbCd_I3YHXGYqzDceHsVQoGQAGmeBnvLms " + where + " ORDER BY MonthNum",
       'chartType': 'ComboChart',
       'options': {
         'title': zone,
@@ -113,17 +113,16 @@ function drawVisualization(zone) {
           'slantedText': true
         },
         'series': {
-          1: {
+          2: {
             'type': 'line'
           }
         }
       },
-      view : {
+      view: {
         columns: [1,2,3]
       }
     });
-  }
-  else {
+  } else {
     wrapper = new google.visualization.ChartWrapper({
       containerId: "visualization",
       dataSourceUrl: "http://www.google.com/fusiontables/gvizdata?tq=",
