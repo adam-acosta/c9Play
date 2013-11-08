@@ -113,7 +113,7 @@ function drawVisualization(zone) {
           'slantedText': true
         },
         'series': {
-          2: {
+          3: {
             'type': 'line'
           }
         }
